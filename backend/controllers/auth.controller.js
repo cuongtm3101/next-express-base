@@ -85,9 +85,38 @@ module.exports.signout = (req, res) => {
 module.exports.requireSignin = expressJwt({
   secret: process.env.JWT_SECRET,
   algorithms: ["HS256"], // added later
-  userProperty: "auth",
+  // userProperty: "auth",
 });
 
 module.exports.authMiddleware = (req, res, next) => {
   const authUserId = req.user._id;
+  User.findById({ _id: authUserId }, (err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "User not found",
+      });
+    }
+    req.profile = user;
+    next();
+  });
+};
+
+module.exports.adminMiddleware = (req, res, next) => {
+  const adminUserId = req.user._id;
+  User.findById({ _id: adminUserId }, (err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "User not found",
+      });
+    }
+
+    if (user.rold !== 1) {
+      return res.status(400).json({
+        error: "Admin resources. Access denied ",
+      });
+    }
+
+    req.profile = user;
+    next();
+  });
 };
