@@ -18,3 +18,42 @@ module.exports.create = (req, res) => {
     res.json(data);
   });
 };
+
+module.exports.list = (req, res) => {
+  Category.find({}, (err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json(data);
+  });
+};
+
+module.exports.read = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+
+  Category.findOne({ slug }, (err, category) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json(category);
+  });
+};
+
+module.exports.remove = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+
+  Category.findOneAndRemove({ slug }, (err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json({
+      message: "Category deleted successfully",
+    });
+  });
+};
