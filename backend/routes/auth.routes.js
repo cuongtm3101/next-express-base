@@ -20,8 +20,9 @@ router.get("/signout", signout);
 
 // test
 router.get("/secret", requireSignin, (req, res) => {
+  console.log(req);
   res.json({
-    message: req.user,
+    user: req.user,
   });
 });
 
