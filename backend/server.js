@@ -6,9 +6,12 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const globalErrorHandler = require('./controllers/err.controller');
+
 // bring routes
 const blogRoutes = require("./routes/blog.routes");
 const authRoutes = require("./routes/auth.routes");
+const courseRoutes = require("./routes/course.routes");
 
 // app
 const app = express();
@@ -41,7 +44,9 @@ if (process.env.NODE_ENV === "development") {
 // routes middleware
 app.use("/api", blogRoutes);
 app.use("/api", authRoutes);
+app.use('/api', courseRoutes)
 
+app.use(globalErrorHandler)
 // port
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
