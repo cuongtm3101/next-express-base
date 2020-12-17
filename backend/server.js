@@ -11,12 +11,9 @@ const globalErrorHandler = require('./controllers/err.controller');
 // bring routes
 const blogRoutes = require("./routes/blog.routes");
 const authRoutes = require("./routes/auth.routes");
-<<<<<<< HEAD
 const courseRoutes = require("./routes/course.routes");
-=======
 const userRoutes = require("./routes/user.routes");
 const categoryRoutes = require("./routes/category.routes");
->>>>>>> 7591310874c3a64d53f4beb8d04559bc3b6a2c23
 
 // app
 const app = express();
