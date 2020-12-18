@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getAllTours,
+  getAllCourse,
   createCourse,
   getCourse,
   updateCourse,
@@ -10,11 +10,11 @@ const {
 
 router
   .route("/course")
-  .get(getAllTours)
+  .get(getAllCourse)
   .post(createCourse)
 
 router
-  .route("/course/:id")
+  .route("/course/:slug")
   .get(getCourse)
   .patch(updateCourse)
   .delete(deleteCourse)
