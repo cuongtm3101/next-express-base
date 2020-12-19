@@ -1,38 +1,31 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const {
-  getAllCourse,
-  createCourse,
-  getCourse,
-  updateCourse,
-  deleteCourse
-} = require('../controllers/course.controller');
+const { getAll, createOne, getOne, deleteOne, updateOne } = require('../controllers/lesson.controller')
+
 const {
   requireSignin,
   adminMiddleware,
 } = require("../controllers/auth.controller");
 
 router
-  .route("/course")
-  .get(getAllCourse)
+  .route("/lesson")
+  .get(getAll)
   .post(
     requireSignin,
     adminMiddleware,
-    createCourse)
+    createOne)
 
 router
-  .route("/course/:slug")
-  .get(getCourse)
+  .route("/lesson/:slug")
+  .get(getOne)
   .patch(
     requireSignin,
     adminMiddleware,
-    updateCourse
+    updateOne
   )
   .delete(
     requireSignin,
     adminMiddleware,
-    deleteCourse)
-
-
+    deleteOne)
 
 module.exports = router;

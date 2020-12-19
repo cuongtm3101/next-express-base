@@ -9,11 +9,13 @@ const {
   list,
   read,
   remove,
+  update
 } = require("../controllers/category.controller");
 
 // validators
 const { runValidation } = require("../validators");
 const { categoryCreateValidator } = require("../validators/category");
+
 
 router.post(
   "/category",
@@ -26,5 +28,6 @@ router.post(
 router.get("/categories", list);
 router.get("/category/:slug", read);
 router.delete("/category/:slug", requireSignin, adminMiddleware, remove);
+router.patch("/category/:slug", requireSignin, adminMiddleware, update)
 
 module.exports = router;

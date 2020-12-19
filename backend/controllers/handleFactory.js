@@ -1,6 +1,16 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require('./../utils/appError');
 
+module.exports.getAllBase = Model => catchAsync(async (req, res, next) => {
+  const doc = await Model.find();
+  res.status(201).json({
+    status: "success",
+    data: {
+      data: doc
+    }
+  });
+});
+
 module.exports.createOne = Model => catchAsync(async (req, res, next) => {
   const doc = await Model.create(req.body);
   res.status(201).json({

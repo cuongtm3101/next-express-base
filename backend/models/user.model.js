@@ -52,11 +52,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-  },
-  {
-    timestamps: true,
-  }
-);
+  }, {
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
 
 userSchema
   .virtual("password")

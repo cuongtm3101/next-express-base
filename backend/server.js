@@ -14,6 +14,8 @@ const authRoutes = require("./routes/auth.routes");
 const courseRoutes = require("./routes/course.routes");
 const userRoutes = require("./routes/user.routes");
 const categoryRoutes = require("./routes/category.routes");
+const sectionRoutes = require("./routes/section.routes");
+const lessonRoutes = require("./routes/lesson.routes");
 
 // app
 const app = express();
@@ -49,9 +51,11 @@ app.use("/api", authRoutes);
 app.use('/api', courseRoutes)
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", sectionRoutes);
+app.use("/api", lessonRoutes);
 
-app.use(globalErrorHandler)
-// port
+app.use(globalErrorHandler);
+
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`Server is running on port ${8000}`);

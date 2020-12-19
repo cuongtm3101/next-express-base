@@ -6,6 +6,10 @@ const courseSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Category"
   },
+  lessionId: [{
+    type: mongoose.Schema.ObjectId,
+    ref: "Lession"
+  }],
   trainerName: {
     type: String,
     required: [true, "need a trainer name"]
@@ -57,6 +61,7 @@ const courseSchema = mongoose.Schema({
     }
   },
 }, {
+    timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
