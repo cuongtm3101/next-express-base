@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const slugify = require('slugify');
 
 const sectionSchema = mongoose.Schema({
-  lessonId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "lesson"
-  },
   sectionTitle: {
     type: String,
     required: [true, "section need a required !!!"],
@@ -14,7 +10,12 @@ const sectionSchema = mongoose.Schema({
     sectionDescription: String,
     sectionTotalName: String
   },
-  slug: String
+  slug: String,
+  courseId: {
+    required: true,
+    ref: "Course",
+    type: mongoose.Schema.ObjectId
+  }
 }, {
   timestamps: true,
   toJSON: { virtuals: true },
@@ -24,6 +25,20 @@ const sectionSchema = mongoose.Schema({
 sectionSchema.pre("save", function (next) {
   this.slug = slugify(this.sectionTitle, { lower: true });
   next();
+});
+
+sectionSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "lessonId",
+    select: '-__v'
+  });
+  next();
+})
+
+sectionSchema.virtual("lessonId", {
+  ref: "Lesson",
+  foreignField: "sectionId",
+  localField: "_id"
 });
 
 const Section = mongoose.model('Section', sectionSchema);

@@ -1,6 +1,14 @@
 const express = require('express');
-const router = express.Router();
-const { getAll, createOne, getOne, deleteOne, updateOne } = require('../controllers/lesson.controller')
+// you need to set mergeParams: true on the router,
+// if you want to access params from the parent router
+const router = express.Router({ mergeParams: true });
+const {
+  getAll,
+  createOne,
+  getOne,
+  deleteOne,
+  updateOne,
+  createOnLesson } = require('../controllers/lesson.controller')
 
 const {
   requireSignin,
@@ -13,6 +21,7 @@ router
   .post(
     requireSignin,
     adminMiddleware,
+    createOnLesson,
     createOne)
 
 router

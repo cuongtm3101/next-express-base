@@ -7,13 +7,4 @@ module.exports.read = factory.getOne(Category);
 module.exports.remove = factory.deleteOne(Category);
 module.exports.update = factory.updateOne(Category);
 
-module.exports.list = (req, res) => {
-  Category.find({}, (err, data) => {
-    if (err) {
-      return res.status(400).json({
-        error: errorHandler(err),
-      });
-    }
-    res.json(data);
-  });
-};
+module.exports.list = factory.getAll(Category);

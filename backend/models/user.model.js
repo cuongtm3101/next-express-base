@@ -52,6 +52,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    cart: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Course"
+      }
+    ]
   }, {
   timestamps: true,
   toJSON: { virtuals: true },
@@ -72,6 +78,7 @@ userSchema
   .get(function () {
     return this._password;
   });
+
 
 userSchema.methods = {
   authenticate: function (plainText) {

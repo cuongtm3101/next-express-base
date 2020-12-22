@@ -6,10 +6,6 @@ const courseSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Category"
   },
-  lessionId: [{
-    type: mongoose.Schema.ObjectId,
-    ref: "Lession"
-  }],
   trainerName: {
     type: String,
     required: [true, "need a trainer name"]
@@ -61,7 +57,7 @@ const courseSchema = mongoose.Schema({
     }
   },
 }, {
-    timestamps: true,
+  timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
@@ -81,5 +77,19 @@ courseSchema.pre(/^find/, function (next) {
   next();
 })
 
+
+courseSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "sectionId",
+    select: '-__v'
+  });
+  next();
+})
+
+courseSchema.virtual("sectionId", {
+  ref: "Section",
+  foreignField: "courseId",
+  localField: "_id"
+});
 const Course = mongoose.model('Course', courseSchema);
 module.exports = Course;

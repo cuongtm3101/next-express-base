@@ -3,7 +3,10 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const mongoose = require("mongoose");
+const AppError = require("./utils/appError")
+
+const db = require('./helpers/dbConnect');
+
 require("dotenv").config();
 
 const globalErrorHandler = require('./controllers/err.controller');
@@ -16,20 +19,13 @@ const userRoutes = require("./routes/user.routes");
 const categoryRoutes = require("./routes/category.routes");
 const sectionRoutes = require("./routes/section.routes");
 const lessonRoutes = require("./routes/lesson.routes");
+const orderRoutes = require("./routes/order.routes");
 
 // app
 const app = express();
 
 // database
-mongoose
-  .connect(process.env.DATABASE_LOCAL, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("DB is connected"))
-  .catch((err) => console.log(err));
+db.Connect();
 
 // middleware
 app.use(morgan("dev"));
@@ -53,6 +49,11 @@ app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", sectionRoutes);
 app.use("/api", lessonRoutes);
+app.use("/api", orderRoutes);
+
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't not found this path : ${req.originalUrl} on server`, 404));
+});
 
 app.use(globalErrorHandler);
 
