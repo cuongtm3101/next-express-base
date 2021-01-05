@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const sectionRoutes = require('./section.routes');
 
+router.use("/course/:slug2", sectionRoutes);
+
 const {
   getAllCourse,
   createCourse,
@@ -13,8 +15,6 @@ const {
   requireSignin,
   adminMiddleware,
 } = require("../controllers/auth.controller");
-
-router.use("/course/:slug", sectionRoutes)
 
 router
   .route("/course")

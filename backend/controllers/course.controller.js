@@ -4,6 +4,9 @@ const AppError = require('../utils/appError');
 const factory = require("./handleFactory");
 const apiFeatures = require('../utils/apiFeatures');
 
+const Session = require('../models/session.model')
+
+
 exports.getAllCourse = catchAsync(async (req, res, next) => {
   let filter = {};
   if (req.params.slug) {
@@ -20,6 +23,7 @@ exports.getAllCourse = catchAsync(async (req, res, next) => {
   if (!doc) {
     next(new AppError(`Not Found A Document`, 404));
   }
+
   res.status(200).json({
     "status": "success",
     "results": doc.length,

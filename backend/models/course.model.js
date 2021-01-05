@@ -77,7 +77,6 @@ courseSchema.pre(/^find/, function (next) {
   next();
 })
 
-
 courseSchema.pre(/^find/, function (next) {
   this.populate({
     path: "sectionId",
