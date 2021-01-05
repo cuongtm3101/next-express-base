@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    cart: [
+    purchased_course: [
       {
         type: mongoose.Schema.ObjectId,
         ref: "Course"

@@ -15,31 +15,8 @@ exports.createOnLesson = catchAsync(async (req, res, next) => {
   next();
 });
 
-module.exports.getAll = catchAsync(async (req, res, next) => {
-  let filter = {};
-  if (req.params.slug) {
-    const temp = { slug: req.params.slug };
-    const section = await Section.findOne(temp);
-    filter = { sectionId: section._id };
-  }
-  const futures = new apiFeatures(Lesson.find(filter), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const doc = await futures.query;
-  if (!doc) {
-    next(new AppError(`Not Found A Document`, 404));
-  }
-  res.status(200).json({
-    "status": "success",
-    "results": doc.length,
-    data: {
-      data: doc
-    }
-  });
-})
+module.exports.getAll = factory.getAll(Lesson, Section);
 module.exports.createOne = factory.createOne(Lesson);
-module.exports.getOne = factory.getOne(Lesson);
+module.exports.getOne = factory.getOne(Lesson, Section);
 module.exports.updateOne = factory.updateOne(Lesson);
 module.exports.deleteOne = factory.deleteOne(Lesson);
