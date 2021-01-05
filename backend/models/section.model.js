@@ -8,7 +8,8 @@ const sectionSchema = mongoose.Schema({
     maxlength: [50, "Course name need require less more than 50 characters"],
     minlength: [3, "Course name need require more than 3 characters"],
     sectionDescription: String,
-    sectionTotalName: String
+    sectionTotalName: String,
+    unique: true,
   },
   slug: String,
   courseId: {

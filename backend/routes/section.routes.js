@@ -2,19 +2,19 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 
 const lessonRoutes = require('./lesson.routes');
+// you can nest routers by attaching them as middleware:
+router.use("/section/:slug2", lessonRoutes);
 
-const { createOne, getOne, updateOne, deleteOne, getAllSectionByCourse } = require("../controllers/section.controller")
+const { createOne, getOne, updateOne, deleteOne, getAll } = require("../controllers/section.controller")
 const {
   requireSignin,
   adminMiddleware,
 } = require("../controllers/auth.controller");
 
-// you can nest routers by attaching them as middleware:
-router.use("/section/:slug", lessonRoutes)
 
 router
   .route('/section')
-  .get(getAllSectionByCourse)
+  .get(getAll)
   .post(
     requireSignin,
     adminMiddleware,
@@ -22,7 +22,10 @@ router
 
 router
   .route('/section/:slug')
-  .get(getOne)
+  .get((req, res, next) => {
+    console.log(req.params.slug);
+    next()
+  }, getOne)
   .patch(
     requireSignin,
     adminMiddleware,
