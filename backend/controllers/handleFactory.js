@@ -1,13 +1,25 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require('./../utils/appError');
 const Section = require("../models/section.model");
+const apiFeatures = require('../utils/apiFeatures');
 
-module.exports.getAll = Model => catchAsync(async (req, res, next) => {
+
+module.exports.getAll = (Model, Model2) => catchAsync(async (req, res, next) => {
+  const { slug2 } = req.params;
   let filter = {};
-  if (req.params.slug) {
-    const temp = { slug: req.params.slug };
-    const section = await Section.findOne(temp);
-    filter = { sectionId: section._id };
+  if (slug2) {
+    const temp = { slug: slug2 };
+    const doc2 = await Model2.findOne(temp);
+    if (!doc2) {
+      next(new AppError(`Not Found A Document With Slug : ${slug2}`, 404));
+    }
+    const nameCollection2 = Model2.collection.collectionName;
+    if (nameCollection2 === "courses") {
+      filter = { courseId: doc2._id };
+    }
+    if (nameCollection2 === "sections") {
+      filter = { sectionId: doc2._id };
+    }
   }
   const futures = new apiFeatures(Model.find(filter), req.query)
     .filter()
@@ -37,12 +49,26 @@ module.exports.createOne = Model => catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports.getOne = Model => catchAsync(async (req, res, next) => {
-  const { slug } = req.params;
-  console.log(req.params);
-  const doc = await Model.findOne({ slug });
+module.exports.getOne = (Model, Model2) => catchAsync(async (req, res, next) => {
+  const { slug, slug2 } = req.params;
+  let filter = { slug };
+  if (slug2) {
+    const temp = { slug: slug2 };
+    const doc = await Model2.findOne(temp);
+    if (!doc) {
+      next(new AppError(`Not Found A Document With Slug : ${slug2}`, 404));
+    }
+    const nameCollection2 = Model2.collection.collectionName;
+    if (nameCollection2 === "courses") {
+      filter = { ...filter, courseId: doc._id };
+    }
+    if (nameCollection2 === "sections") {
+      filter = { ...filter, sectionId: doc._id };
+    }
+  }
+  const doc = await Model.findOne(filter);
   if (!doc) {
-    next(new AppError(`Not Found A Document With Slug : ${slug}`, 404));
+    next(new AppError(`Not Found A Document With Slug : ${slug} in ${slug2}`, 404));
   }
   res.status(201).json({
     "status": "success",
