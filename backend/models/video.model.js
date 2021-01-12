@@ -3,8 +3,7 @@
 // const videoSchema = new mongoose.Schema({
 //   courseId: {
 //     type: mongoose.Schema.ObjectId,
-//     ref : "Course",
-//     required : [true, "a video should be in 1 Course"]
+//     ref : "Course"
 //   }
 // }, {
 //   timestamps: true,
