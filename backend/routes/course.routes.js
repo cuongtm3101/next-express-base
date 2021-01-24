@@ -9,11 +9,15 @@ const {
   createCourse,
   getCourse,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  postCheckOut,
+  getDetailAndPayment,
+  returnPaymentLink
 } = require('../controllers/course.controller');
 const {
   requireSignin,
   adminMiddleware,
+  checkUser
 } = require("../controllers/auth.controller");
 
 router
@@ -35,8 +39,14 @@ router
   .delete(
     requireSignin,
     adminMiddleware,
-    deleteCourse)
+    deleteCourse);
 
+router
+  .route("/:slug/course-detail")
+  .get(checkUser, getDetailAndPayment)
+  .post(postCheckOut)
+
+router.get('/vnpay_return', returnPaymentLink);
 
 
 module.exports = router;

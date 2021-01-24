@@ -1,0 +1,66 @@
+extends ../layouts/common
+block content
+  section.header_table
+    .introduction
+      img(src=course.imageCover, alt='', height='820px', width='100%')
+    .courses__preview__content
+      .landing__line
+      span.preview__header__title= course.courseName
+      span.preview__header__body= course.shortDescription
+      button.preview__btn
+        i.fas.fa-shopping-cart.fa-2x
+        span.course_text_body
+          span.text Học Ngay -
+          span.text= course.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
+  section.description
+    .description_section
+      span.section_general
+        div.das__landing__line
+        span.description_section_text Sứ Mệnh
+      .preview__overview
+        each item in course.detailDescription
+          h1
+            span(style='color: rgb(245, 180, 35); background-color: transparent;')= item.title
+          p
+            br
+          p
+            span(style='background-color: transparent;')= item.content
+          p
+            br
+          p
+            img(src= item.imgURL, alt='', width='100%')
+          p
+            br
+          p
+            br
+  section.course__wrapper
+    span.section_general
+      .das__landing__line(style='color: rgb(245, 180, 35);')
+      span.description_section_text(style='color: #fff;') Gi&#x1EDB;i thi&#x1EC7;u kh&oacute;a h&#x1ECD;c
+    .course__content
+      span.course__name= course.courseName
+      .player__container.course__preview__video
+        div(style='width: 100%; height: auto;')
+          #{course.demoVideoId}
+      .course__title__text Giáo trình
+      .course__slide
+        i.far.fa-arrow-alt-circle-down.fa-2x(style='color: #fff;')
+        span.course__download__title=`Tải Giáo Trình ${course.courseName}`
+      each item in course.sectionId
+        .course__chapter
+          .dropdown
+            span.course__chapter__name= item.sectionTitle
+            a(href='#', data-mdb-toggle='dropdown', aria-expanded='false')
+              i.fas.fa-chevron-circle-down.fa-2x(style='color: #fff;')
+          each i in item.lessonId
+            .course__chapter__content
+              .course__lecture__wrapper
+                .course__lecture__detail
+                  i.far.fa-play-circle.fa-2x(style='color: #fff;')
+                  span.course__lecture__name= i.lessonTitle
+                .course__time
+                  span.course__lecture__name.course__lenght (3:54)
+                
+          
+
+

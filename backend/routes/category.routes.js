@@ -12,16 +12,8 @@ const {
   update
 } = require("../controllers/category.controller");
 
-// validators
-const { runValidation } = require("../validators");
-const { categoryCreateValidator } = require("../validators/category");
-
-
 router.post(
   "/category",
-  categoryCreateValidator,
-  runValidation,
-  requireSignin,
   adminMiddleware,
   create
 );

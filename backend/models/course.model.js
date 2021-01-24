@@ -21,15 +21,13 @@ const courseSchema = mongoose.Schema({
   slug: String,
   demoVideoId: {
     type: String,
-    required: [true, "A Course need require a video demo"],
+    required: [true, "demo Video Id need require a video demo"],
     trim: true,
   },
   shortDescription: {
     type: String,
     trim: true,
-    required: [true, "A Course need require a short description"],
-    maxlength: [100, "Course name need require less more than 10 characters"],
-    minlength: [20, "Course name need require more than 3 characters"]
+    required: [true, "short Description need require a short description"]
   },
   detailDescription: [
     {
@@ -56,6 +54,14 @@ const courseSchema = mongoose.Schema({
       message: `Discount Price ({VALUE}) should be below regular price`
     }
   },
+  imageCover: {
+    type: String,
+    required: [true, 'course need required image cover'],
+  },
+  imageDetails: [{
+    type: String,
+    required: [true, 'course need required image detaile']
+  }]
 }, {
   timestamps: true,
   toJSON: { virtuals: true },
@@ -68,6 +74,12 @@ courseSchema.pre("save", function (next) {
   this.slug = slugify(this.courseName, { lower: true });
   next();
 });
+
+// courseSchema.pre(/^findOneAndUpdate/, function (next) {
+//   this.slug = slugify(this.courseName, { lower: true });
+//   console.log(this.slug);
+//   next();
+// })
 
 courseSchema.pre(/^find/, function (next) {
   this.populate({

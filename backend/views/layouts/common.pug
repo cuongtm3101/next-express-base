@@ -1,0 +1,92 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css')
+    // Font Awesome
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css', rel='stylesheet')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap', rel='stylesheet')
+    // MDB
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.css', rel='stylesheet')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+    // MDB
+    link(rel='stylesheet', href='/css/style.css')
+    title= title.toUpperCase()
+    link(rel="shortcut icon", href="/image/favicon.ico", type="image/x-icon")
+body
+    #root
+        main
+            section.landing__header
+                .header
+                    nav#navbar(style='position: fixed;')
+                        .header__wrapper
+                            .header__logo
+                                li
+                                    a(href='/index')
+                                        img(src=' /image/Logo Final-01.png', alt='', width='60%', height='100px')
+                                li(style='color: #fff;  font-weight: 700;')
+                                    | VINCI DESIGN SCHOOL
+                            .header_list
+                                li.header_item
+                                    | Khóa Offline
+                                li.header_item
+                                    a(href='/course-online', style='color: #fff;') Khóa Online
+                                li.header_item Tài liệu miễn phí
+                                li.header_item Liên hệ
+                            .header_user
+                                if !user
+                                    li.header_item
+                                        .flexbox
+                                            .search
+                                                div
+                                                    input(type='text', placeholder='Search . . .', required='')
+                                    button.das__nav__btn(type='button')
+                                        a(href='/auth/login', style='color: #fff;') ĐĂNG NHẬP
+                                else
+                                    li.header_item= user.username
+
+            block content
+
+        footer.bg-light.text-center.text-lg-start
+            .container.p-4
+                .row
+                    .col-lg-6.col-md-12.mb-4.mb-md-0
+                        h5.text-uppercase Footer Content
+                        p
+                        | Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
+                        | molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
+                        | voluptatem veniam, est atque cumque eum delectus sint!
+                    .col-lg-3.col-md-6.mb-4.mb-md-0
+                        h5.text-uppercase Links
+                        ul.list-unstyled.mb-0
+                            li
+                                a.text-dark(href='#!') Link 1
+                            li
+                                a.text-dark(href='#!') Link 2
+                            li
+                                a.text-dark(href='#!') Link 3
+                            li
+                                a.text-dark(href='#!') Link 4
+                    .col-lg-3.col-md-6.mb-4.mb-md-0
+                        h5.text-uppercase.mb-0 Links
+                        ul.list-unstyled
+                            li
+                                a.text-dark(href='#!') Link 1
+                            li
+                                a.text-dark(href='#!') Link 2
+                            li
+                                a.text-dark(href='#!') Link 3
+                            li
+                                a.text-dark(href='#!') Link 4
+            .text-center.p-3(style='background-color: rgba(0, 0, 0, 0.2)')
+                | &copy; 2020 Copyright : 
+                a.text-dark(href='https://www.facebook.com/hoangnamcao1512/') Cao Mạnh
+
+    script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js')
+    script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl', crossorigin='anonymous')
+    script(src='/js/style.js')
+

@@ -4,26 +4,21 @@ const {
   signup,
   signin,
   signout,
-  requireSignin,
+  getSignup,
+  getLogin
 } = require("../controllers/auth.controller");
 
-// validators
-const { runValidation } = require("../validators");
-const {
-  userSignupValidator,
-  userSigninValidator,
-} = require("../validators/auth");
+router
+  .route('/login')
+  .get(getLogin)
+  .post(signin)
 
-router.post("/signup", userSignupValidator, runValidation, signup);
-router.post("/signin", userSigninValidator, runValidation, signin);
+router
+  .route("/signup")
+  .get(getSignup)
+  .post(signup)
+
 router.get("/signout", signout);
 
-// test
-router.get("/secret", requireSignin, (req, res) => {
-  console.log(req);
-  res.json({
-    user: req.user,
-  });
-});
 
 module.exports = router;

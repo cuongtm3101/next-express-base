@@ -5,9 +5,12 @@ const {
   requireSignin,
   authMiddleware,
   adminMiddleware,
+  getLogin,
+  signin,
 } = require("../controllers/auth.controller");
 
 router.get("/profile", requireSignin, authMiddleware, read);
 router.route("/user/:id").post(requireSignin, authMiddleware, updateCart)
+
 
 module.exports = router;

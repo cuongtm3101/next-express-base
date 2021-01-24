@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-      required: true,
       max: 32,
     },
     email: {
@@ -28,7 +27,6 @@ const userSchema = new mongoose.Schema(
     profile: {
       type: String,
       trim: true,
-      required: true,
     },
     hashed_password: {
       type: String,
@@ -67,7 +65,6 @@ const userSchema = new mongoose.Schema(
 userSchema
   .virtual("password")
   .set(function (password) {
-    console.log("Đi vào set:", password);
     // create a temporary variable called _password
     this._password = password;
     // generate salt
@@ -102,4 +99,6 @@ userSchema.methods = {
   },
 };
 
-module.exports = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
