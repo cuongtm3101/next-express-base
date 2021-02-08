@@ -11,7 +11,7 @@ const {
   updateCourse,
   deleteCourse,
   postCheckOut,
-  getDetailAndPayment,
+  getDetail,
   returnPaymentLink
 } = require('../controllers/course.controller');
 const {
@@ -21,8 +21,8 @@ const {
 } = require("../controllers/auth.controller");
 
 router
-  .route("/course")
-  .get(getAllCourse)
+  .route("/course-online")
+  .get(checkUser, getAllCourse)
   .post(
     requireSignin,
     adminMiddleware,
@@ -43,10 +43,7 @@ router
 
 router
   .route("/:slug/course-detail")
-  .get(checkUser, getDetailAndPayment)
-  .post(postCheckOut)
-
-router.get('/vnpay_return', returnPaymentLink);
+  .get(checkUser, getDetail)
 
 
 module.exports = router;

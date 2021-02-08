@@ -15,11 +15,12 @@ body
   #root
     main
       .login_user
-        svg.icon__back(xmlns='http://www.w3.org/2000/svg', width='64', height='64', viewbox='0 0 64 64', alt='icon', style='height: 64px; width: 64px; cursor: pointer;')
-          a(href='/login.html')
-            g(fill='#FFF')
-              path(d='M32 0C14.327 0 0 14.327 0 32c0 17.673 14.327 32 32 32 17.673 0 32-14.327 32-32C64 14.327 49.673 0 32 0zm0 1c17.12 0 31 13.88 31 31 0 17.12-13.88 31-31 31C14.88 63 1 49.12 1 32 1 14.88 14.88 1 32 1z')
-              path(d='M20.32 32.756L28.727 41l1.543-1.512-6.545-6.418h19.184c.603 0 1.091-.48 1.091-1.07 0-.59-.488-1.07-1.09-1.07H23.724l6.545-6.418L28.727 23l-8.407 8.244c-.427.418-.427 1.094 0 1.512')
+        a(href="/index")
+          svg.icon__back(xmlns='http://www.w3.org/2000/svg', width='64', height='64', viewbox='0 0 64 64', alt='icon', style='height: 64px; width: 64px; cursor: pointer;')
+            a(href='/login.html')
+              g(fill='#FFF')
+                path(d='M32 0C14.327 0 0 14.327 0 32c0 17.673 14.327 32 32 32 17.673 0 32-14.327 32-32C64 14.327 49.673 0 32 0zm0 1c17.12 0 31 13.88 31 31 0 17.12-13.88 31-31 31C14.88 63 1 49.12 1 32 1 14.88 14.88 1 32 1z')
+                path(d='M20.32 32.756L28.727 41l1.543-1.512-6.545-6.418h19.184c.603 0 1.091-.48 1.091-1.07 0-.59-.488-1.07-1.09-1.07H23.724l6.545-6.418L28.727 23l-8.407 8.244c-.427.418-.427 1.094 0 1.512')
         .login__header
         .login_content
           .login_item
@@ -56,7 +57,7 @@ body
                       .login__facebook__divider
                       span.text_login_other Qua Facebook
               span.text_choose - or -
-            form(action="", method="post")
+            form(action="/auth/signup", method="post")
               span User name
               .form-outline.mb-4
                 .imput_email
@@ -83,7 +84,7 @@ body
                 button.btn_login(type='submit') ĐĂNG KÝ
             .login__register
               span.register__text Bạn đã có tài khoản?
-              a.login__register__link(href='/login.html') Đăng Nhập Ngay !
+              a.login__register__link(href='/auth/login') Đăng Nhập Ngay !
   // MDB
   script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js')
   script(src='/js/style.js')

@@ -5,8 +5,11 @@ const {
   signin,
   signout,
   getSignup,
-  getLogin
+  getLogin,
+  getSignUpSuccess,
+  postSignupSuccess
 } = require("../controllers/auth.controller");
+
 
 router
   .route('/login')
@@ -17,6 +20,11 @@ router
   .route("/signup")
   .get(getSignup)
   .post(signup)
+
+router
+  .route("/signup-success/:slug")
+  .get(getSignUpSuccess)
+  .post(postSignupSuccess)
 
 router.get("/signout", signout);
 

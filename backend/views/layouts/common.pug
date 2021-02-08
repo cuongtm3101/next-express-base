@@ -13,7 +13,7 @@ head
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
     // MDB
     link(rel='stylesheet', href='/css/style.css')
-    title= title.toUpperCase()
+    title= title ? title.toUpperCase() : "VINCI DESIGN SCHOOL"
     link(rel="shortcut icon", href="/image/favicon.ico", type="image/x-icon")
 body
     #root
@@ -30,11 +30,13 @@ body
                                     | VINCI DESIGN SCHOOL
                             .header_list
                                 li.header_item
-                                    | Khóa Offline
+                                    a(href='/course/course-offline', style='color: #fff;') Khóa Offline
                                 li.header_item
-                                    a(href='/course-online', style='color: #fff;') Khóa Online
-                                li.header_item Tài liệu miễn phí
-                                li.header_item Liên hệ
+                                    a(href='/course/course-online', style='color: #fff;') Khóa Online
+                                li.header_item 
+                                    a(href='/document/free', style='color: #fff;') Tài liệu miễn phí
+                                li.header_item 
+                                    a(href='/contact', style='color: #fff;') Liên hệ
                             .header_user
                                 if !user
                                     li.header_item
@@ -45,8 +47,28 @@ body
                                     button.das__nav__btn(type='button')
                                         a(href='/auth/login', style='color: #fff;') ĐĂNG NHẬP
                                 else
-                                    li.header_item= user.username
+                                    li.header_item
+                                        .flexbox
+                                            .search
+                                                div
+                                                    input(type='text', placeholder='Search . . .', required='')
+                                    li.header_item
+                                        a#dropdownMenuButton.btn.btn-primarydropdown-toggle(href='#', data-mdb-toggle='dropdown', aria-expanded='false')
+                                            .img-border
+                                                img(src= user.photo ? user.photo :"/image/favicon.ico"  , width='10px')
+                                            .username= user.name ? user.name : user.username
+                                        ul.dropdown-menu(aria-labelledby='dropdownMenuButton', style= "min-width:22rem;position: absolute;inset: 0px auto auto 0px;")
+                                            a.dropdown-item(href='', disabled)
+                                                .image__avatar
+                                                    img(src= user.photo ? user.photo : '/image/favicon.ico', width="50px")
+                                                .user__infor
+                                                    .user__name()= user.name ? user.name : user.username
+                                                    .user__email= user.email
 
+                                            .divider.dropdown-divider
+                                            a.dropdown-item(href='/course/myCourse') Khóa Học Của Tôi
+                                            a.dropdown-item(href='/user/setting') Cài đạt tài khoản
+                                            a.dropdown-item(href='/auth/signout') Đặng Xuất !
             block content
 
         footer.bg-light.text-center.text-lg-start
@@ -54,10 +76,7 @@ body
                 .row
                     .col-lg-6.col-md-12.mb-4.mb-md-0
                         h5.text-uppercase Footer Content
-                        p
-                        | Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
-                        | molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
-                        | voluptatem veniam, est atque cumque eum delectus sint!
+                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor facilis neque eos, ea aspernatur, ad voluptatum nam magnam tempore iure non officia voluptatibus quidem maiores veritatis impedit natus? Assumenda, sapiente.
                     .col-lg-3.col-md-6.mb-4.mb-md-0
                         h5.text-uppercase Links
                         ul.list-unstyled.mb-0

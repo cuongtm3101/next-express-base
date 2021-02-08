@@ -55,13 +55,21 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.ObjectId,
         ref: "Course"
       }
-    ]
+    ],
+    isActive: {
+      type: Boolean,
+      default: false
+    },
+    codeActive: String
   }, {
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
-
+userSchema.pre("save", function (next) {
+  this.codeActive = Math.floor(Math.random() * (99999 - 10000) + 10000);
+  next();
+});
 userSchema
   .virtual("password")
   .set(function (password) {

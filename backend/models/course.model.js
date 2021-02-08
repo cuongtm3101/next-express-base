@@ -4,7 +4,8 @@ const slugify = require('slugify');
 const courseSchema = mongoose.Schema({
   categoryId: {
     type: mongoose.Schema.ObjectId,
-    ref: "Category"
+    ref: "Category",
+    required: [true, "A Course Need In Category"]
   },
   trainerName: {
     type: String,
@@ -31,9 +32,18 @@ const courseSchema = mongoose.Schema({
   },
   detailDescription: [
     {
-      title: String,
-      content: String,
-      imgURL: String,
+      title: {
+        type: String,
+        required: [true, "detail Description need require 2 title description"]
+      },
+      content: {
+        type: String,
+        required: [true, "detail Description need require 2 content description"]
+      },
+      imgURL: {
+        type: String,
+        required: [true, "detail Description need require 2 images description"]
+      },
       type: {
         type: {
           type: String
@@ -45,23 +55,10 @@ const courseSchema = mongoose.Schema({
     type: Number,
     required: [true, 'A Course must have a price']
   },
-  discount: {
-    type: Number,
-    validate: {
-      validator: function (val) {
-        return val < this.price;
-      },
-      message: `Discount Price ({VALUE}) should be below regular price`
-    }
-  },
   imageCover: {
     type: String,
     required: [true, 'course need required image cover'],
-  },
-  imageDetails: [{
-    type: String,
-    required: [true, 'course need required image detaile']
-  }]
+  }
 }, {
   timestamps: true,
   toJSON: { virtuals: true },

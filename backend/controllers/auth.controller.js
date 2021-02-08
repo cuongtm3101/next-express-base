@@ -2,14 +2,14 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 const catchAsync = require('../utils/catchAsync');
-const Course = require("../models/course.model");
+const sgMail = require('@sendgrid/mail');
 
 const signToken = _id => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
 const createSendToken = catchAsync(async (user, res) => {
-  console.log(user._id);
+  console.log(user);
   const token = signToken(user._id);
   cookieOptions = {
     signed: true,
@@ -18,9 +18,12 @@ const createSendToken = catchAsync(async (user, res) => {
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("token", token, cookieOptions);
   user.password = undefined;
+  // là admin thì chuyển vào trang admin
+  // tạm thời chưa tạo token --- sửa sau khi hoàn thành giao diện
+  if (user.role === 1) {
+    res.redirect('/admin/index');
+  }
   res.redirect('/index');
-  // const course = await Course.find();
-  // res.render("index", { course, user })
 });
 
 exports.getSignup = function (req, res, next) {
@@ -39,9 +42,49 @@ module.exports.signup = catchAsync(async (req, res, next) => {
     res.render('auth/signup', {
       message: "Email is taken !"
     });
+    return;
   };
-  const newUser = await User.create({ username, email, password });
-  createSendToken(newUser, res);
+  const userNew = await User.create({ username, email, password });
+  const emailNew = userNew.email;
+  const msg = {
+    to: emailNew,
+    from: 'chunguyenchuong2014bg@gmail.com', // Use the email address or domain you verified above
+    subject: "Welcome to VINCI DESIGN SCHOOL",
+    text: `Thank you for your interest in the services of VINCI DESIGN SCHOOL, please enter ${userNew.codeActive} on the page below to complete the last step of registering an account on VINCI DESIGN SCHOOL.`,
+    html: `<div>Thank you for your interest in the services of VINCI DESIGN SCHOOL, please enter <span style="font-weight: 700;"> ${userNew.codeActive} </span> on the page below to complete the last step of registering an account on VINCI DESIGN SCHOOL.</div><a href="http://localhost:8000/auth/signup-success/${emailNew}">Click Here !!</a>`
+  };
+  sgMail
+    .send(msg)
+    .then(() => { }, error => {
+      console.error(error);
+      if (error.response) {
+        console.error(error.response.body)
+      }
+    });
+  res.redirect(`/auth/signup-success/${userNew.email}`);
+});
+
+exports.getSignUpSuccess = function (req, res, next) {
+  res.render("auth/signup-success", {
+    title: 'Thank you for your interest in the service of VINCI DESIGN SCHOOL, please enter the code we sent to your email to use to register our service :'
+  });
+}
+
+exports.postSignupSuccess = catchAsync(async (req, res, next) => {
+  const { slug } = req.params;
+  const { code } = req.body;
+  const user = await User.findOne({ email: slug });
+  if (user.codeActive != code) {
+    res.render(res.render("auth/signup-success", {
+      title: 'Singup success, Please check your email account for account confirmation, and enter the code we sent you here :',
+      message: "Code is not correct !!! please, check again email and enter your code"
+    }))
+  }
+  user.isActive = true;
+  user.codeActive = "";
+  user.save();
+  await User.findByIdAndUpdate({ _id: user._id }, { user });
+  createSendToken(user, res);
 });
 
 exports.getLogin = function (req, res, next) {
@@ -59,16 +102,21 @@ module.exports.signin = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email });
   if (!user) {
     res.render('auth/login', {
-      message: `Can Not Find This Email, You Can Sign Up by This Email ${email} !!! `
+      message: `Can Not Find This Email !!! `
     });
     return;
   }
   if (!user.authenticate(password)) {
     res.render('auth/login', {
-      message: `Password is not correct`
+      message: `Password is not correct`,
+      email
     });
     return;
   }
+  if (!user.isActive) {
+    res.redirect(`/auth/signup-success/${user.email}`);
+  }
+
   createSendToken(user, res);
 });
 

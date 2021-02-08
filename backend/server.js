@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
+const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // bring routes
 const db = require('./helpers/dbConnect');
@@ -18,6 +21,8 @@ const sectionRoutes = require("./routes/section.routes");
 const lessonRoutes = require("./routes/lesson.routes");
 const orderRoutes = require("./routes/order.routes");
 const indexRoutes = require("./routes/index.routes");
+const paymentRoutes = require("./routes/payment.routes");
+const adminRouter = require("./routes/admin/index.admin.routes");
 
 // app
 const app = express();
@@ -27,10 +32,10 @@ db.Connect();
 
 // middleware
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.set("views", "./views");
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("secret"));
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -60,12 +65,13 @@ app.use("/category", categoryRoutes);
 app.use("/section", sectionRoutes);
 app.use("/lesson", lessonRoutes);
 app.use("/order", orderRoutes);
+app.use("/payment", paymentRoutes);
+app.use('/admin', adminRouter)
 app.use("/", indexRoutes);
-
 
 app.use(globalErrorHandler);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-  console.log(`Server is running on port ${8000}`);
+  console.log(`Server is running on port : http://localhost:${8000}`);
 });

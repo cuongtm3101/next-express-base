@@ -3,10 +3,7 @@ const router = express.Router();
 const { read, updateCart } = require("../controllers/user.controller");
 const {
   requireSignin,
-  authMiddleware,
-  adminMiddleware,
-  getLogin,
-  signin,
+  authMiddleware
 } = require("../controllers/auth.controller");
 
 router.get("/profile", requireSignin, authMiddleware, read);

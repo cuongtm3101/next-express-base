@@ -7,7 +7,6 @@ exports.Error404 = function (req, res, next) {
 }
 
 exports.getHomePage = function (req, res, next) {
-  console.log("hihi");
   res.redirect('/index');
 }
 
@@ -16,9 +15,10 @@ exports.getHomePage1 = catchAsync(async (req, res, next) => {
   const course = await Course.find({});
   if (user) {
     res.render('index', {
-      title: "Home Page",
+      title: "VINCI DESIGN SCHOOL",
       course, user
     });
+    return;
   }
   res.render('index', {
     title: "Home Page",

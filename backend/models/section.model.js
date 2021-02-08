@@ -16,7 +16,8 @@ const sectionSchema = mongoose.Schema({
     required: true,
     ref: "Course",
     type: mongoose.Schema.ObjectId
-  }
+  },
+  sectionDescription: String
 }, {
   timestamps: true,
   toJSON: { virtuals: true },
